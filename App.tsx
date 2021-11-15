@@ -1,21 +1,27 @@
+import * as React from 'react';
+import * as eva from '@eva-design/eva';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { IconRegistry, ApplicationProvider, Button, Text } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { TopNav } from './components/TopNav';
+import { Default } from './pages/Default';
+import { Students } from './pages/Students';
 
-export default function App() {
+const App = () => {
+  const [state, setState] = React.useState<boolean>(true);
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
       <StatusBar style="auto" />
-    </View>
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <TopNav />
+        <Button onPress={() => setState(!state)}>
+          <Text>Change to {state ? 'UNUGHA' : 'Students'}</Text>
+        </Button>
+        {state ? <Students /> : <Default />}
+      </ApplicationProvider>
+    </>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
